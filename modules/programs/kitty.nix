@@ -62,7 +62,8 @@ in {
 
     package = mkOption {
       type = types.package;
-      default = pkgs.kitty;
+      # Kitty fails to run without nixGL on genericLinux
+      default = (config.lib.nixGL.wrap pkgs.kitty);
       defaultText = literalExpression "pkgs.kitty";
       description = ''
         Kitty package to install.
