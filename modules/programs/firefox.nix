@@ -238,10 +238,12 @@ in {
 
       package = mkOption {
         type = with types; nullOr package;
-        default = if versionAtLeast config.home.stateVersion "19.09" then
-          pkgs.firefox
-        else
-          pkgs.firefox-unwrapped;
+        # Wrap with nixGL by default to provide hardware-accelerated WebRender
+        default = (config.lib.nixGL.wrap
+          (if versionAtLeast config.home.stateVersion "19.09" then
+            pkgs.firefox
+          else
+            pkgs.firefox-unwrapped));
         defaultText = literalExpression "pkgs.firefox";
         example = literalExpression ''
           pkgs.firefox.override {
