@@ -30,6 +30,7 @@ in {
       # the outputs and derivation attributes.
         (pkg.overrideAttrs (old: {
           name = "nixGL-${pkg.name}";
+          separateDebugInfo = false;
           buildCommand = ''
             set -eo pipefail
 
