@@ -56,7 +56,7 @@ in {
               local prog="$(basename "$file")"
               makeWrapper \
                 "${cfg.prefix}" \
-                "$prog" \
+                "$out/bin/$prog" \
                 --argv0 "$prog" \
                 --add-flags "$file"
             done
