@@ -60,6 +60,17 @@ in {
                 --argv0 "$prog" \
                 --add-flags "$file"
             done
+
+            # If .desktop files refer to the old package, replace the references
+            for dsk in "$out/share/applications"/*.desktop ; do
+              if ! grep "${pkg.out}" "$dsk" > /dev/null; then
+                continue
+              fi
+              src="$(readlink "$dsk")"
+              rm "$dsk"
+              sed "s|${pkg.out}|$out|g" "$src" > "$dsk"
+            done
+
             shopt -u nullglob # Revert nullglob back to its normal default state
           '';
         }));
